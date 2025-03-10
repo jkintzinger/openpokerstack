@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Tournoi de Poker</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="navbar">
+        <h1>Tournoi de Poker</h1>
+    </div>
+    <div class="container">
+        <div class="timer-section">
+            <div id="timer">15:00</div>
+            <div class="blinds-display">
+                <div class="blind-card">
+                    <small>Niveau</small>
+                    <span id="levelNum">1</span>
+                </div>
+                <div class="blind-card">
+                    <small>Small Blind</small>
+                    <span id="smallBlind">10</span>
+                </div>
+                <div class="blind-card">
+                    <small>Big Blind</small>
+                    <span id="bigBlind">20</span>
+                </div>
+            </div>
+            <div class="controls">
+                <button onclick="startTournament()">Démarrer</button>
+                <button onclick="pauseTournament()">Pause</button>
+                <button onclick="resetTournament()">Reset</button>
+            </div>
+        </div>
+        <div class="tables-section" id="tablesContainer"></div>
+        <div class="eliminated-players" id="eliminatedPlayers">
+            <h2>Joueurs Éliminés</h2>
+            <ul class="eliminated-list" id="eliminatedList"></ul>
+        </div>
+    </div>
+    <!-- Overlay for the form -->
+    <div id="setupOverlay" class="overlay">
+        <div class="setup-form">
+            <h2>Configurer le Tournoi</h2>
+            <div class="form-section">
+                <label for="playersInput">Joueurs (un par ligne) :</label>
+                <textarea id="playersInput" rows="5" placeholder="Entrez les noms des joueurs..."></textarea>
+            </div>
+            <div class="form-section">
+                <label for="maxPlayersInput">Nombre max de joueurs par table :</label>
+                <div class="input-tooltip">
+                    <input type="number" id="maxPlayersInput" min="2" value="8" placeholder="Nombre max de joueurs par table">
+                    <span class="tooltip-text">Nombre max de joueurs par table</span>
+                </div>
+            </div>
+            <div class="form-section">
+                <label>Structure des Blinds :</label>
+                <div class="tabs">
+                    <button class="tab-button active" onclick="switchTab('manual')">Manuel</button>
+                    <button class="tab-button" onclick="switchTab('generate')">Génération</button>
+                </div>
+                <div id="manualTab" class="tab-content">
+                    <div id="blindsLevels">
+                        <div class="blind-level">
+                            <div class="input-tooltip">
+                                <input type="number" class="small-blind" placeholder="Small Blind" min="1">
+                                <span class="tooltip-text">Small Blind</span>
+                            </div>
+                            <div class="input-tooltip">
+                                <input type="number" class="big-blind" placeholder="Big Blind" min="1">
+                                <span class="tooltip-text">Big Blind</span>
+                            </div>
+                            <div class="input-tooltip">
+                                <input type="number" class="duration" placeholder="Durée (min)" min="1">
+                                <span class="tooltip-text">Durée (min)</span>
+                            </div>
+                            <button onclick="removeBlindLevel(this)">-</button>
+                            <button onclick="insertBlindLevel(this)">+</button>
+                        </div>
+                    </div>
+                    <button onclick="addBlindLevel()">+ Ajouter un niveau</button>
+                </div>
+                <div id="generateTab" class="tab-content hidden">
+                    <div class="generator-section">
+                        <div class="input-tooltip">
+                            <input type="number" id="tournamentDuration" placeholder="Durée estimée (min)" min="1">
+                            <span class="tooltip-text">Durée estimée (min)</span>
+                        </div>
+                        <div class="input-tooltip">
+                            <input type="number" id="smallestChip" placeholder="Plus petit jeton" min="1" value="5">
+                            <span class="tooltip-text">Plus petit jeton</span>
+                        </div>
+                        <div class="input-tooltip">
+                            <input type="number" id="startingBB" placeholder="Stack en BB" min="50" value="200">
+                            <span class="tooltip-text">Stack en BB</span>
+                        </div>
+                        <button onclick="generateBlindsStructure()">Générer Structure</button>
+                    </div>
+                    <div id="generatedBlindsLevels"></div>
+                </div>
+            </div>
+            <button onclick="startTournamentFromForm()">Lancer le Tournoi</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
